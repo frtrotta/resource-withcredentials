@@ -26,8 +26,7 @@ angular.module("authModule")
                             {
                                 username: username,
                                 password: password
-                            },
-                            {withCredentials: true}
+                            }
                     ).then(function (data) {
                             return $http.get(
                                 authBaseUrl + "me"

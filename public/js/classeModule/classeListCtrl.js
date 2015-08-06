@@ -46,7 +46,7 @@ angular.module("classeModule")
 
                     new classeResource(classe).$save().then(
                             function (newClasse) {
-                                vm.barmen.push(newClasse);
+                                vm.classes.push(newClasse);
                                 $log.debug("Classe created");
                                 $log.debug(newClasse);
                                 vm.classeToCreate = null;
