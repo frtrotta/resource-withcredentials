@@ -12,7 +12,7 @@ angular.module("classeModule")
                 listClasses();
 
                 function listClasses() {
-                    vm.classes = classeResource.query();
+                    vm.classes = classeResource.query({role: "classe"});
                     // TODO Promise errore management
                 }
 
@@ -20,14 +20,13 @@ angular.module("classeModule")
                     classe.$delete().then(
                             function (data) {
                                 vm.classes.splice(vm.classes.indexOf(classe), 1);
-                                $log.debug("Classe deleted ");
-                                $log.debug(data.data);
-                                $log.debug(statusText);
+                                $log.debug("Classe deleted");
+                                $log.debug(data);
                             },
                             function (data) {
                                 $log.error("Error in deleting classe");
                                 $log.debug(data.data);
-                                $log.debug(statusText);
+                                $log.debug(data.statusText);
                             }
                     );
                 }
@@ -41,6 +40,7 @@ angular.module("classeModule")
                     var classe = {
                         username: vm.classeToCreate.username,
                         email: vm.classeToCreate.email,
+                        role: "classe",
                         password: generateRandomPassword()
                     };
 

@@ -1,20 +1,21 @@
-angular.module("classeModule")
-        .controller("classeAuthCtrl", ["$http", "classeBaseUrl", "$log", function ($http, classeBaseUrl, $log) {
+angular.module("authModule")
+        .controller("authCtrl", ["$http", "authBaseUrl", "$log", function ($http, authBaseUrl, $log) {
                 var vm = this;
 
                 vm.authenticated = false;
                 vm.authenticationFailed = false;
 
 
-                vm.login = function (){
+                vm.login = function () {
                     var username = angular.copy(vm.username);
                     var password = angular.copy(vm.password);
                     vm.username = null;
                     vm.password = null;
 
-                    vm.authenticatioFailed = false;
+                    vm.authenticationFailed = false;
+                    
                     $http.post(
-                            classeBaseUrl + "login",
+                            authBaseUrl + "login",
                             {
                                 username: username,
                                 password: password
@@ -26,6 +27,7 @@ angular.module("classeModule")
                         vm.authenticated = true;
                         vm.authenticationFailed = false;
                         $log.debug("Successfully authenticated");
+                        $log.debug(data);
                     }, function (data) {
                         vm.authenticationFailed = true;
                         $log.debug("Login error");
@@ -34,8 +36,9 @@ angular.module("classeModule")
                 }
 
                 vm.logout = function () {
+                    
                     $http.post(
-                            classeBaseUrl + "logout",
+                            authBaseUrl + "logout",
                             {},
                             {}
                     ).then(function (data) {
@@ -48,15 +51,6 @@ angular.module("classeModule")
                         $log.debug("Error in logging out");
                         $log.debug(data);
                     });
-                }
-
-                function resetForm(form) {
-                    if (form) {
-                        // TODO controllare perchè non reimposta i campi
-                        // https://docs.angularjs.org/guide/forms
-                        form.$setPristine();
-                        form.$setUntouched();
-                    }
                 }
 
             }]);

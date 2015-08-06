@@ -1,1 +1,1 @@
-angular.module("resourceWithCredentialsApp", ["barmanModule", "classeModule"]);
+angular.module("resourceWithCredentialsApp", ["authModule", "barmanModule", "classeModule"]);

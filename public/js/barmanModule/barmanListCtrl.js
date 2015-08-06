@@ -12,7 +12,7 @@ angular.module("barmanModule")
                 listBarmen();
                 
                 function listBarmen() {
-                    vm.barmen = barmanResource.query();
+                    vm.barmen = barmanResource.query({role: "barman"});
                     // TODO Promise errore management
                 }
                 
@@ -21,13 +21,12 @@ angular.module("barmanModule")
                             function(data) {
                                 vm.barmen.splice(vm.barmen.indexOf(barman), 1);
                                 $log.debug("Barman deleted");
-                                $log.debug(data.data);
-                                $log.debug(statusText);
+                                $log.debug(data);
                             },
                             function(data) {
                                 $log.error("Error in deleting barman");
                                 $log.debug(data.data);
-                                $log.debug(statusText);
+                                $log.debug(data.statusText);
                             }
                             );
                 }
@@ -42,6 +41,7 @@ angular.module("barmanModule")
                     var barman = {
                         username: vm.barmanToCreate.username, 
                         email: vm.barmanToCreate.email,
+                        role: "barman",
                         password: generateRandomPassword()
                     };
                     
