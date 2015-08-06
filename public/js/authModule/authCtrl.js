@@ -2,15 +2,22 @@ angular.module("authModule")
         .controller("authCtrl", ["$http", "authBaseUrl", "$log", function ($http, authBaseUrl, $log) {
                 var vm = this;
 
+                vm.me = null;
                 vm.authenticated = false;
                 vm.authenticationFailed = false;
 
 
-                vm.login = function () {
+                vm.login = login;
+                vm.logout = logout;
+                
+                
+                
+                function login () {
                     var username = angular.copy(vm.username);
                     var password = angular.copy(vm.password);
                     vm.username = null;
                     vm.password = null;
+                    vm.me = null;
 
                     vm.authenticationFailed = false;
                     
@@ -20,14 +27,19 @@ angular.module("authModule")
                                 username: username,
                                 password: password
                             },
-                    {
-                        withCredentials: true
-                    }
+                            {withCredentials: true}
                     ).then(function (data) {
-                        vm.authenticated = true;
-                        vm.authenticationFailed = false;
-                        $log.debug("Successfully authenticated");
-                        $log.debug(data);
+                            return $http.get(
+                                authBaseUrl + "me"
+                            )
+                        },
+                        undefined // the next then will handle errors
+                    ).then( function (data) { // Promise chaining
+                            vm.authenticated = true;
+                            vm.authenticationFailed = false;
+                            vm.me = data.data;
+                            $log.debug("Successfully authenticated");
+                            $log.debug(data);
                     }, function (data) {
                         vm.authenticationFailed = true;
                         $log.debug("Login error");
@@ -35,8 +47,8 @@ angular.module("authModule")
                     });
                 }
 
-                vm.logout = function () {
-                    
+                function logout () {
+                    vm.me = null;
                     $http.post(
                             authBaseUrl + "logout",
                             {},

@@ -43,6 +43,7 @@ and open the template in the editor.
                         </form>
                     </div>
                     <div ng-show="auth.authenticated">
+                        <p>Logged as {{auth.me.username}} ({{auth.me.role}})</p>
                         <button class="btn btn-sm" type="submit" ng-click="auth.logout()"/>Logout</button>
                     </div>
                 </div>

@@ -36,7 +36,6 @@ angular.module("barmanModule")
                 }
                 
                 function createBarman() {
-                    $log.log(vm.barmanToCreate.email);
                     
                     var barman = {
                         username: vm.barmanToCreate.username, 
